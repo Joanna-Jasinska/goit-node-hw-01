@@ -35,26 +35,22 @@ function getContactById(contactId) {
 }
 
 function removeContact(contactId) {
-  const deletedText = "-------DELETED-------";
-  const removedContact = {
-    id: `DELETED: ${contactId.substring(0, 9) + "..."}`,
-    name: deletedText,
-    email: deletedText,
-    phone: deletedText,
-  };
-
-  fs.writeFileSync(
-    contactsPath,
-    JSON.stringify(
-      data.filter((contact) => {
-        return contact.id !== contactId;
-      })
-    )
-  );
-  return data.map((contact) => {
-    if (contact.id === contactId) return removedContact;
-    return contact;
+  const newData = data.filter((contact) => {
+    return contact.id !== contactId;
   });
+  fs.writeFileSync(contactsPath, JSON.stringify(newData));
+  return newData;
+  // const deletedText = "-------DELETED-------";
+  // const removedContact = {
+  //   id: `DELETED: ${contactId.substring(0, 9) + "..."}`,
+  //   name: deletedText,
+  //   email: deletedText,
+  //   phone: deletedText,
+  // };
+  // return data.map((contact) => {
+  //   if (contact.id === contactId) return removedContact;
+  //   return contact;
+  // });
 }
 
 function addContact(
@@ -69,16 +65,17 @@ function addContact(
     email: email,
     phone: phone,
   };
-  const addedContact = {
-    ...contact,
-    id: `ADDED: ${contactId.substring(0, 11) + "..."}`,
-  };
   data.push(contact);
   fs.writeFileSync(contactsPath, JSON.stringify(data));
-  return data.map((contact) => {
-    if (contact.id === contactId) return addedContact;
-    return contact;
-  });
+  return data;
+  // const addedContact = {
+  //   ...contact,
+  //   id: `ADDED: ${contactId.substring(0, 11) + "..."}`,
+  // };
+  // return data.map((contact) => {
+  //   if (contact.id === contactId) return addedContact;
+  //   return contact;
+  // });
 }
 
 // log(SEPARATOR);
